@@ -1,8 +1,4 @@
 const path = require('path');
-const fs = require('fs');
-const assert = require('assert');
-const c = require("clorox");
-
 const Action = require('./action');
 const GenerateCommand = require('./generate');
 
