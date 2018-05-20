@@ -3,8 +3,11 @@
   "description": "cli",
   "keywords": [
     "cli",
-    "egg-pig",
+    "egg-pig"
   ],
+  "bin": {
+    "pig": "bin/pig.js"
+  },
   "author": "YV",
   "license": "ISC",
   "main": "index.js",
@@ -24,5 +27,5 @@
     "node": ">=8.9.0"
   },
   "scripts": {},
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
