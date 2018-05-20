@@ -1,5 +1,5 @@
 import { Injectable, EggInterceptor, ExecutionContext } from 'egg-pig';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()

@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const assert = require('assert');
+const c = require("clorox");
 
 
 class Action {
@@ -17,7 +18,6 @@ class Action {
             { name: 'guard', alias: 'gu' },
             { name: 'interceptor', alias: 'i' },
             { name: 'middleware', alias: 'mi' },
-            { name: 'module', alias: 'mo' },
             { name: 'pipe', alias: 'pi' },
             // { name: 'provider', alias: 'pr' },
             { name: 'service', alias: 's' }
@@ -26,14 +26,23 @@ class Action {
 
     handle(inputs, appPaths) {
 
-        const fileName = this.storages.find(storge => inputs.find(input => input.value === storge.name || input.value === storge.alias)).name;
+        const storge = this.storages.find(storge => inputs.find(input => input.value === storge.name || input.value === storge.alias));
 
+        if (!storge){
+            console.log(`${c.yellow(`Invalid file type ${inputs[0].value}`)} `)
+            return; 
+        }
 
         const dir = this.getAppPath(appPaths);
+
         if (!dir){
-            throw new Error('can not find egg app path');
+            console.log(`${c.yellow(`Cannot find egg app path !`)} `)
+            return; 
         }
-        require(`../files/${fileName}`).generate(inputs, dir);
+
+        const component  = require(`../files/${storge.name}`);
+        
+        (new component(inputs, dir)).generate();
 
     }
 

@@ -1,17 +1,28 @@
 {
-  "name": "cli",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
+  "name": "egg-pig-cli",
+  "description": "cli",
+  "keywords": [
+    "cli",
+    "egg-pig",
+  ],
+  "author": "YV",
   "license": "ISC",
+  "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/yviscool/egg-pig-cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yviscool/egg-pig-cli"
+  },
   "dependencies": {
     "clorox": "^1.0.3",
     "commander": "^2.15.1",
     "fs-extra": "^6.0.1"
-  }
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "scripts": {},
+  "version": "0.1.0"
 }

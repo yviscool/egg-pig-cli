@@ -1,5 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext } from 'egg-pig';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class <%= name %>Guard extends CanActivate {

@@ -1,4 +1,10 @@
-import { Controller } from 'egg-pig';
+import { BaseContextClass } from 'egg';
+import { Controller, Get } from 'egg-pig';
 
 @Controller()
-export class <%= user %>Controller {}
+export default class <%= name %>Controller extends BaseContextClass {
+
+    @Get()
+    async foo() {
+    }
+}
