@@ -6,5 +6,6 @@ export default class <%= name %>Controller extends BaseContextClass {
 
     @Get()
     async foo() {
+        
     }
 }

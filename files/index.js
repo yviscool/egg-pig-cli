@@ -1,19 +1,18 @@
+const c = require("clorox");
 const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
-const c = require("clorox");
+const inflection = require('inflection');
 
 class Core {
 
     constructor(inputs, appPath, dirname, componentPath) {
-        this.pattern = /<%= name %>/gm;
+        this.pattern = /<%=.*?name.*?%>/gm;
         this.inputs = inputs;
         this.appPath = appPath;
         this.dirname = dirname;
         this.componentPath = componentPath;
     }
-
-
 
     generate() {
 
@@ -21,12 +20,18 @@ class Core {
 
         const { filePath, name } = this.parse();
 
-        const distPath = path.join(this.appPath, this.componentPath, `${name}.ts`);
+        const distPath = path.join(this.appPath, this.componentPath, `${name.toLowerCase()}.ts`);
+
         const flag = this.exists(distPath);
-        if (flag) {
+
+        if (flag && path.basename(distPath) !== 'router') {
             this.logAlreadyExists(distPath);
             return;
+        } else {
+            this.removeSync(flag);
+            this.logRemoveSuccess();
         }
+
         content = content.replace(this.pattern, this.camelProp(name))
 
         fse.outputFileSync(distPath, content);
@@ -39,13 +44,13 @@ class Core {
     }
 
     camelProp(name) {
-        return name.charAt(0).toUpperCase() + name.substring(1);
+        return inflection.camelize(name);
     }
 
     parse() {
         let name;
         let filePath;
-        for (let { key, value } of this.inputs) {
+        for (const { key, value } of this.inputs) {
             if (key === 'name')
                 name = value;
             if (key === 'path')
@@ -61,6 +66,14 @@ class Core {
         return false;
     }
 
+
+    remove(fileOrDir) {
+        return fse.removeSync(fileOrDir);
+    }
+
+    logRemoveSuccess() {
+        console.log(`${c.yellow('remove default router.ts success! ')}`);
+    }
 
     logAlreadyExists(distPath) {
         console.log(`${c.yellow('ERROR!' + distPath + ' already exists.')}`)

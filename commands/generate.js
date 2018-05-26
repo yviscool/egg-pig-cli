@@ -2,7 +2,6 @@
 
 class GenerateCommand {
 
-
     set(action) {
         this.action = action;
         return this;
