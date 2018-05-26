@@ -66,8 +66,9 @@ class Action {
             }
             dir = path.join(dir, 'app');
             if (existsSync(dir)) {
-                return fs.realpathSync(dir);
+                return realpathSync(dir);
             }
+            return '';
         }
     }
 
