@@ -2,6 +2,7 @@ const c = require("clorox");
 const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
+const readline = require('readline');
 const inflection = require('inflection');
 
 class Core {
@@ -14,22 +15,32 @@ class Core {
         this.componentPath = componentPath;
     }
 
-    generate() {
+    async generate() {
 
         let content = this.readFile();
 
         const { filePath, name } = this.parse();
 
-        const distPath = path.join(this.appPath, this.componentPath, `${name.toLowerCase()}.ts`);
+        let distPath = path.join(this.appPath, this.componentPath, `${name.toLowerCase()}.ts`);
 
-        const flag = this.exists(distPath);
+        const routerPath = path.join(this.appPath, 'router.ts');
 
-        if (flag && path.basename(distPath) !== 'router') {
+        const isdistPahtExist = this.exists(distPath);
+
+        const isGenerateRouter = this.isGenerateRouter(distPath);
+
+        if (isdistPahtExist && !isGenerateRouter) {
             this.logAlreadyExists(distPath);
             return;
-        } else {
-            this.removeSync(flag);
-            this.logRemoveSuccess();
+        }
+
+        if (isGenerateRouter) {
+            const no = await this.askForRemoveRouter();
+            if (no) {
+                return;
+            }
+            this.remove(routerPath);
+            distPath = routerPath;
         }
 
         content = content.replace(this.pattern, this.camelProp(name))
@@ -66,14 +77,31 @@ class Core {
         return false;
     }
 
+    isGenerateRouter(distPath, appPath) {
+        if (/.*?\/middleware\//.test(distPath)) {
+            return true;
+        }
+        return false;
+    }
 
     remove(fileOrDir) {
         return fse.removeSync(fileOrDir);
     }
 
-    logRemoveSuccess() {
-        console.log(`${c.yellow('remove default router.ts success! ')}`);
+    askForRemoveRouter() {
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+        return new Promise(resolve => {
+            rl.question('\nDo you want to delete router.ts ? (yes or no) ', msg => {
+                rl.pause();
+                msg =  msg.trim().toLocaleLowerCase();
+                resolve(msg.includes('no'));
+            })
+        })
     }
+
 
     logAlreadyExists(distPath) {
         console.log(`${c.yellow('ERROR!' + distPath + ' already exists.')}`)

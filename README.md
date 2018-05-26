@@ -24,13 +24,14 @@ pig [command] [...options]
 
 A list of available architecture components:
 
-* controller (alias: co)  
-* decorator (alias: d)
-* filter (alias: f)
-* exception (alias: e)
-* guard (alias: gu)
-* interceptor (alias: i)
-* pipe (alias: pi)
+* controller (alias: c|co|con)  
+* decorator (alias: d|de|dec)
+* filter (alias: f|fi|fil|ft)
+* exception (alias: e|ex|exce)
+* guard (alias: gu|gua)
+* interceptor (alias: i|in|int|inter)
+* pipe (alias: p|pi)
+* middleware (alias: m|mi|midd)
 
 
 **Example usage**

@@ -8,12 +8,12 @@ class Action {
         this.storages = [
             { name: 'controller', alias: 'c|co|con' },
             { name: 'decorator', alias: 'd|dec|de' },
-            { name: 'exception', alias: 'ex|exce' },
+            { name: 'exception', alias: 'e|ex|exc|exce' },
             { name: 'filter', alias: 'f|fi|ft|fil' },
-            { name: 'guard', alias: 'gu|g|gua' },
+            { name: 'guard', alias: 'gu|gua' },
             { name: 'interceptor', alias: 'i|in|int|inter' },
             { name: 'pipe', alias: 'p|pi' },
-            { name: 'middleware', alias: 'mi' },
+            { name: 'middleware', alias: 'm|mi|midd' },
             { name: 'service', alias: 's' }
         ]
     }
@@ -38,25 +38,36 @@ class Action {
 
         const dir = this.getAppPath(appPaths);
 
-        if (!dir) {
+        const flag = this.validAppPath(dir);
+
+        if (!flag) {
             console.log(`${c.yellow(`Cannot find egg app path !`)} `)
             return;
         }
 
         const component = require(`../files/${storge.name}`);
 
-        (new component(inputs, dir)).generate();
+        try {
+            Promise
+                .resolve((new component(inputs, dir)).generate())
+                .then(() => { process.exit(0) })
+                .catch(console.log)
+        } catch (e) {
+            throw e;
+        }
 
     }
 
 
     getAppPath(dirs) {
-        for (const dir of dirs) {
+        for (let dir of dirs) {
             if (path.basename(dir) === 'app') {
-                return this.validAppPath(dir);
+                return realpathSync(dir);
             }
             dir = path.join(dir, 'app');
-            return this.validAppPath(dir);
+            if (existsSync(dir)) {
+                return fs.realpathSync(dir);
+            }
         }
     }
 
@@ -65,11 +76,11 @@ class Action {
         const controllerPath = path.join(dir, 'controller');
         const middlewarePath = path.join(dir, 'middleware');
         if (
-               existsSync(controllerPath)
+            existsSync(controllerPath)
             || existsSync(servicePath)
             || existsSync(middlewarePath)
         ) {
-            return realpathSync(dir);
+            return true;
         }
         return false;
     }
