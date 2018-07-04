@@ -68,8 +68,8 @@ class Action {
             if (existsSync(dir)) {
                 return realpathSync(dir);
             }
-            return '';
         }
+        return '';
     }
 
     validAppPath(dir) {
