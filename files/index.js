@@ -1,4 +1,4 @@
-const c = require("clorox");
+const tc = require("turbocolor");
 const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
@@ -104,14 +104,12 @@ class Core {
 
 
     logAlreadyExists(distPath) {
-        console.log(`${c.yellow('ERROR!' + distPath + ' already exists.')}`)
+        console.log(tc.yellow(`ERROR! ${distPath} already exists.`))
     }
 
     logCreateSuccess(distPath) {
-        console.log(`${c.yellow('CREATEA')} ${c.green(distPath)} `)
+        console.log(tc.yellow('CREATED') + tc.green(distPath))
     }
-
-
 
 }
 
