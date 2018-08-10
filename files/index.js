@@ -78,7 +78,7 @@ class Core {
     }
 
     isGenerateRouter(distPath, appPath) {
-        if (/.*?\/middleware\//.test(distPath)) {
+        if (/.*?app.*?middleware/.test(distPath)) {
             return true;
         }
         return false;

@@ -1,7 +1,8 @@
 import { Application } from 'egg';
-import { MiddlewareConsumer } from 'egg-pig';
+import { MiddlewareConsumer, RequestMethod } from 'egg-pig';
 
 export default (app: Application) => {
+	
   const { router, controller, middleware } = app;
 
   MiddlewareConsumer
@@ -9,6 +10,8 @@ export default (app: Application) => {
     .setRouter(router)
 
     .apply()
+
+    .exclude()
 
     .forRoutes();
 
