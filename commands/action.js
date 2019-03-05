@@ -1,6 +1,6 @@
 const path = require('path');
 const { realpathSync, existsSync } = require('fs');
-const tc = require('turbocolor');
+const color = require('colorette');
 
 class Action {
 
@@ -32,7 +32,7 @@ class Action {
         }));
 
         if (!storge) {
-            console.log(tc.yellow(`Invalid file type ${inputs[0].value}`))
+            console.log(color.yellow(`Invalid file type ${inputs[0].value}`))
             return;
         }
 
@@ -41,7 +41,7 @@ class Action {
         const flag = this.validAppPath(dir);
 
         if (!flag) {
-            console.log(tc.yellow(`Cannot find egg app path !`))
+            console.log(color.yellow(`Cannot find egg app path !`))
             return;
         }
 

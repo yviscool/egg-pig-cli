@@ -1,4 +1,4 @@
-const tc = require("turbocolor");
+const color = require("colorette");
 const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
@@ -104,11 +104,11 @@ class Core {
 
 
     logAlreadyExists(distPath) {
-        console.log(tc.yellow(`ERROR! ${distPath} already exists.`))
+        console.log(color.yellow(`ERROR! ${distPath} already exists.`))
     }
 
     logCreateSuccess(distPath) {
-        console.log(tc.yellow('CREATED') + tc.green(distPath))
+        console.log(color.yellow('CREATED') + color.green(distPath))
     }
 
 }
